@@ -1,0 +1,43 @@
+﻿
+Dictionary- interface--->(方法均被HashTableChained实现)
+作为父类接口引用所有带有“字典”的“查找”、“插入”、“删除”属性的类class。
+----public int size（）；{return n;}
+----public boolean isEmpty();{return n==0;}
+----public Entry insert(key, value);{hashCode(key)->comFunction(hashCode)->得到对应bucket下的LinkList，调用LinkList.insert(key, value)}
+----public Entry find(key);{hashCode(key)->comFunction(hashCode)->得到对应bucket下的LinkList，调用LinkList.Find(key)->得到LinkListNode,调用LinkListNode.item}
+----public Entry remove(key);{hashCode(key)->comFunction(hashCode)->得到对应bucket下的LinkList，调用LinkList.Find(key)->得到LinkListNode,调用LinkListNode.remove();}
+----public void makeEmpty(){itemNum=0;调用所有bucket[N].makeEmpty()->将每个LinkList.length=0,并且head.next=null;head.next.prev=0;}
+
+HashTableChained- class---> implement Dictionary
+带有N个bucket的arraylist，每个bucket存储linkedlist形式的listNode（Entry+next）
+====protected LinkList bucket[] //实际上每个bucket即LinkedList的reference
+====protected n//Entry的数目
+====protected N//bucket数目
+====private int prime
+====private int scale
+====private int shift
+----public HashTableChained(N);
+----public HashTableChained();
+----default int bucketIndex compFunction(code);{return (int)((Math.abs(key.hashCode()∗ scale + shift) %prime)%N)} 
+----其他的函数实现Dictionary这个interface下的方法
+
+
+LinkList- class--->HashTableChained.bucket[]
+存储HashTableChained下属bucket中的Entry，
+====protected LinkListNode head//头指针
+====protected length//node数目
+----protected int length();
+----protected Entry find(int key);
+----protected insertBack(key, value)
+
+LinkListNode- class--->LinkList.head
+====protected Entry item；
+====protected LinkListNode next
+----public remove(key);
+
+Entry- class--->LinkListNode.item
+作为一个【Key+Value】结构体,隶属于LinklistNode的一个field
+====protected Object key
+====protected Object value
+----public Object key();
+----public Object value();

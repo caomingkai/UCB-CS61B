@@ -1,0 +1,2 @@
+1----BankApp.java 中语句：command = bankApp.readLine("--> ");放在catch（Exception）{ }前后，对用户输入有很大的影响。体现了try-catch的原理：try中某语句出现Exception之后，不执行后面的语句（command=...）,直接跳到catch{ }中执行catch内部语句；如果没有Exception，这try内部语句执行完毕，不执行catch语句。
+2

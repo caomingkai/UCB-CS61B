@@ -1,0 +1,38 @@
+《1》if else-if else-if else的感悟。
+
+———————-     if(x < k1){语句1}（    x<k1）
+	else if(x < k2){语句2}（k1<=x<k2）
+	else if(x < k3){语句3}（k2<=x<k3）
+ 	else if(x < k4){语句4}（k3<=x<k4）
+ 	     else      {语句5}（    x>k4）
+
+对于如上例子：
+<1>>>>“语句2”对应的条件实际上为（k1<=x<k2），第一个if下的else-if中前半“else”实际就是表达
+“不满足条件1”，后半“if”表示“又同时满足条件2”的这样一种组合情况，也即（k1<=x<k2）。
+<2>>>>如果根据程序需要，所有相等的情况不予考虑的话，即（x=k1/ k2/ k3/ k4）的情况下do nothing，
+这时候，很容易错误的写出上面表达式（因为表达式中并未出现“==”，所以容易认为那就是对的）。
+下面是一个正确的表达方法：
+———————-     if(x < k1)          {语句1}（   x<k1）
+	else if(x > k1 && x < k2){语句2}（k1<x<k2）
+	else if(x > k2 && x < k3){语句3}（k2<x<k3）
+ 	else if(x > k3 && x < k4){语句4}（k3<x<k4）
+        else if(x > k4)          {语句4}（   x>k4）   
+ 	     else                {空语句!!!!}（x==k1,k2,k3,k4）
+<3>>>>最后一个else，以及“空语句”一定要出现；如果在（x>k4）处就用else语句，会出现Bug！！
+因为这时候的条件，实际是：（x==k1,k2,k3,k4 || x>k4），增加了不想考虑在内的“==”情况。
+
+
+
+《2》Tree234这种数据结构，在insert的时候，需要考虑的情况很多，重要的如下：
+－－－－a.用循环方式找到待插入的“叶子节点”
+－－－－b.在访问中遇到3个key的节点，进行调整，key2上调，key1与key3分裂各自成为单独一个节点
+－－－－c.调整时，需要考虑Node的parent改变后，新的parent与原child及新child的“父子关系”
+－－－－d.还需要考虑Node分裂后，Node原来的child与分裂开的新Node的“父子关系”
+－－－－e.若找到的“叶子节点”也是3个key的节点，仍然需要如上调整。
+
+
+《3》打印输出“树形结构”或“链表结构”等由“next”、“child”连接的数据结构时，
+toString()方法分别在Tree／TreeNode 以及List／ListNode中都分别。
+在TreeNode以及ListNode中对toString()进行循环（.next or .child）操作。
+在Tree或者TreeNode中对toString()调用TreeNode／ListNode的toString方法，
+如root.toString()／head.toString()

@@ -1,0 +1,47 @@
+1、数据结构
+
+TreeNode<abstract>
+====Object item-protected
+====boolean valid-protected
+———-boolean isValidNode()-public
+———-Object item()-public
+————void setItem(Object item)-public
+————int children()-public
+————TreeNode parent()-public
+————TreeNode child(int c)-public
+————TreeNode nextSibling()-public
+————void insertChild(Object item, int c)-public
+————void removeLeaf()-public
+
+SibTreeNode <extends> TreeNode
+====SibTree myTree;-protected（📦封装📦）
+====SibTreeNode parent;-protected
+====SibTreeNode firstChild;-protected
+====SibTreeNode nextSibling;-protected
+————除了实现<abstract>TreeNode方法之外，无新方法。
+
+Tree<abstract>
+====int size-protected
+———-boolean isEmpty()—public
+———-int size()-public
+———-TreeNode root()-public
+———-void insertRoot(Object item)-public
+
+SibTree <extends> Tree
+====SibTreeNode root-default
+————除了实现<abstract>Tree方法之外，无新方法。
+
+2、这次作业，比homework5好的地方在于：不同的父类之间不会有从属关系，
+使得子类在继承各自父类时候，不会出现调用子类某个feild的方法时需要强制转换这种情况。
+即：假如TreeNode在创建之后就包含Tree myTree这个域，那么SibTreeNode在
+继承TreeNode之后，想使用SibTree mySibTree的方法root（）时，需要这样：
+(SibTree)(this.mySibTree).root()才行，这样与继承意义相悖。所以TreeNode在
+创建之后不应该包含Tree myTree这个域；而应该是SibTreeNode自己的特性（封装性📦）
+
+3、调试耗时在：insertNode（）理清(该节点孩子数chidren==0/==1/>1)与
+(c<=1/c>1)以及(c<=1/c>1)共同构成的复杂情况，依然在没有“覆盖全域”正确的
+给出所有情况，导致出现Bug。
+
+4、removeLeaf()，特殊情况：root节点被删除时未考虑进去。
+还是没有“覆盖全域”的给出所有情况，导致Bug出现。
+

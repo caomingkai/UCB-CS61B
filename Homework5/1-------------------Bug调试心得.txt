@@ -1,0 +1,22 @@
+0.0、“继承 IS A”与“从属 BELONG A”要区分清楚：以本次作业为例，存在：ListNode、List、DListNode、DList。<1>“继承”是DList继承List以及DListNode继承ListNode；<2>“从属”是DListNode从属于DList；<3>作业中List也作为一个field从属于ListNode，这是不好的！！<4>在设计abstract class时候（如List、ListNode）,尽量避免二者有交集，即二者有“从属或包含”关系，因为这样的话，对继承者会造成影响，继承者在对其field进行方法调用的时候，每次都需要进行强制转换；这并非“继承”的原本意义，反而应该将ListNode这个抽象类中的List域去掉，只留size即可，在继承它的子类DListNode中加入有自己特色的DList域会更好。
+
+0、Set.java 与package list真正体现了protected不作用于package之外。Set.java只能调用list中声明的public函数来调用相关信息。对于set来讲，set看不到list内部数据结构的实现形式：DList或者SList。
+
+1、封装：ListNode加入了List类型的field，使两个class更加紧密的耦合在一起，避免错误的调用外部节点。同样的，这些信息在Set看来，都是隐藏于list之内的。list向外呈现的只有：
+inEmpty();length();insertFront();insertBack();front();back();/isValidNode();item();setItem();prev();next(); insertAfter(); insertBefore(); remove();
+
+2、注意方法的归属要准确。
+ListNode类：【isValidNode();item();setItem();prev();next(); insertAfter(); insertBefore(); remove();】
+List类：【inEmpty();length();insertFront();insertBack();front();back();】
+
+3、接口可以用来引用实现这个接口的对象，这也是接口的意义所在，如Comparable接口。始终注意：“可以引用”不等于“可以调用对象所有属性与方法”----接口的遥控按钮与对象所属类的遥控按钮不一致。
+
+4、Set类的intersection（）函数花了很长时间。原因在于：本质算法没有一步一步的清晰搞懂，只靠模糊的思想写出来的程序必定会有bug！
+如：set1与set2求intersection时（升序），思想：set2的每一个元素与set1的元素进行比较，只要比set1元素大，则set1的这个元素删除，同时继续与set1的下一个元素比较，直到不满足set2的这个元素大于set1的元素的情况。这种情况又有2中子情况：==或者<。“==”的时候删除set1的这个元素，set2的元素插入set1后边；“<”的时候set2的下一个元素与该元素进行比较，重复前边操作。注意点：为了防止访问invalidnode，分别对set1与set2的最后一个点进行单独处理，则加入while控制条件，使最后一个点不进入循环体（j>1 / i>1)，则在循环体外检查并操作j==1/i==1的情况。j==1时，有3种情况：< 、==、 >。分别讨论。
+
+5、在调用对象函数前，注意检查是否valid，用if来判断。这之后才能调用相关函数。
+
+6、外部类Set使用DList时，最好用DList的父类类型List声明，以免后期需要使用List的其他子类，如SList类。
+7、类DList需要用DListNode（）构造函数来创建新节点时候，避免直接使用DListNode（），而是创建方法method newNode(),在方法中返回DListNode()。这样后期需要使用其他节点类型：如SListNode时候，不需要对DList类中换掉所有DListNode（），只需要在方法newNode中，返回SListNode（）即可。
+
+8、注意Exception的使用。try-catch-finally或者throw exception

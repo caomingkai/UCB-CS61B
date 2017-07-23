@@ -1,0 +1,23 @@
+0——while()条件控制：	
+	
+	while(curNode.key < KEY){
+	      curNode=curNode.next;
+		}
+	      return curNode;
+
+上面的代码return的curNode并非最终希望的，返回的是第一个大于等于KEY的Node（或者Null），它上一个才是最后一个小于KEY的Node。
+
+如果想到得到最后一个小于KEY的Node的话，该用下面的代码。
+
+	while(curNode.next.key < KEY){
+	      curNode=curNode.next;
+		}
+	      return curNode;//最终返回的是：最后一个满足循环条件的Node，即最后一个小于KEY的Node
+
+
+
+1——homework4一开始调试了一整个上午：
+	问题：在class的constructor中对实例变量操作，实例变量前加了类型声明
+	     DListNode head=……;(DListNode 是类型声明)
+	原因：实例变量（对象）与局部变量（方法）作用范围以及使用优先级未搞清楚。
+	细究：在类的constructor／method中：head=……; 与 DListNode head=…… 的意义截然不同。第一个表示	     类class的实例变量，第二个head虽然名字与实例变量一样，但实质上是位于constructor／method中的	     一个局部变量！所以以第二种形式对实例变量head赋值，最终并未起作用，head仍然是null！
